@@ -13,6 +13,10 @@ export class Cuboid extends Base {
 
   static tableName = 'cuboids';
 
+  $afterInsert() {
+    this.volume = this.depth * this.height * this.width;
+  }
+
   static get relationMappings(): RelationMappings {
     return {
       bag: {

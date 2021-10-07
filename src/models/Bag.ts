@@ -12,6 +12,20 @@ export class Bag extends Base {
 
   static tableName = 'bags';
 
+  $afterFind() {
+    let iVolume = 0;
+
+    if(this.cuboids && this.cuboids.length > 0) {
+      this.cuboids.forEach(function(element) {
+        iVolume+= element.depth * element.height * element.width;
+        //iVolume+= element.volume
+      });
+    }
+
+    this.payloadVolume = iVolume;
+    this.availableVolume = this.volume - this.payloadVolume;
+  }
+
   static get relationMappings(): RelationMappings {
     return {
       cuboids: {
